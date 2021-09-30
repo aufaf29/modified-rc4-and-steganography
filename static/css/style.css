@@ -1,0 +1,224 @@
+#main-area {
+    padding: 30px 50px 20px 50px;
+    background-color: rgb(199, 242, 255);
+}
+
+#navbar-area {
+    border-radius: 15px;
+    height: 65px;
+}
+
+#input-text-box {
+    text-decoration: none;
+}
+
+.app-input {
+    grid-area: app-input;
+    background-color: rgba(255, 255, 255, 1.0);
+}
+
+.app-setting {
+    grid-area: app-setting;
+    margin: 0 40px;
+}
+
+.app-output {
+    grid-area: app-output;
+    background-color: rgba(255, 255, 255, 1.0);
+}
+
+.app-container {
+    display: grid;
+    grid-template-areas: 'app-input app-setting app-output';
+    grid-template-columns: 37% 26% 37%;
+    grid-template-rows: 700px;
+    width: 100%;
+    margin-top: 30px;
+}
+  
+.app-container > div {
+    text-align: center;
+    padding: 0;
+    font-size: 30px;
+    border-radius: 23px;
+}
+
+.app-container-title {
+    background-color: rgb(17, 160, 255);
+    color: white;
+    border-radius: 23px 23px 0 0;
+    padding-top: 12px;
+    width: 100%;
+    height: 50px;
+}
+
+.app-container-area {
+    padding: 20px 30px 20px 30px;
+}
+
+.form-label {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.action {
+    width: 120px;
+}
+
+.app-setting-title {
+    grid-area: app-setting-title;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.app-setting-action {
+    grid-area: app-setting-action;
+    margin-top: 15px;
+}
+
+.app-setting-form {
+    grid-area: app-setting-form;
+    background-color: white;
+    border-radius: 23px;
+}
+
+.app-setting-execute {
+    grid-area: app-setting-execute;
+    margin-top: 20px;
+}
+
+.app-setting {
+    display: grid;
+    grid-template-areas: 
+    'app-setting-title'
+    'app-setting-action'
+    'app-setting-form'
+    'app-setting-execute';
+    grid-template-columns: 100%;
+    grid-template-rows: 8% 10% 62% 20%;
+}
+  
+.app-setting > div {
+    text-align: center;
+    padding: 0;
+    font-size: 20px;
+}
+
+.app-setting-title-text {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.app-setting-action-button {
+    height: 40px;
+    width: 100%;
+}
+
+.encrypt-button {
+    border-radius: 12px;
+    width: 50%;
+    font-weight: 900;
+}
+
+.decrypt-button {
+    border-radius: 12px;
+    width: 50%;
+    font-weight: 900;
+}
+
+.btn-primary.focus .active, .btn-primary:focus .active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+#app-setting-action-button-1.focus, #app-setting-action-button-1:focus {
+    box-shadow: none !important;
+}
+
+#app-setting-action-button-2.focus, #app-setting-action-button-2:focus {
+    box-shadow: none !important;
+}
+
+.app-setting-form-container {
+    margin: 30px 20px 0 20px;
+}
+
+.app-setting-form-container .custom-select {
+    box-shadow: none !important;
+    font-size: 16px;
+    border-radius: 12px;
+}
+
+#execute-button {
+    border-radius: 20px;
+    height: 60px;
+}
+
+#execute-button.focus, #execute-button:focus {
+    box-shadow: none !important;
+}
+
+#left-tab, #right-tab {
+    font-weight: 900;
+}
+
+#app-setting-form-dynamic {
+    margin-top: 20px;
+}
+
+.input-file {
+    font-size: 16px;
+}
+
+.download-button {
+    height: 38px;
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+.form-control[disabled], .form-control[readonly] {
+    background-color: white;
+}
+
+.input-form-config {
+    border-radius: 12px;
+}
+
+.input-form-config-label {
+    float: left;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.form-config-title-main {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+#cipher-key-m-radio {
+    min-height: 100px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.cipher-key-radio {
+    border-radius: 12px;
+    min-width: 16.6%;
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.cipher-key-radio.focus, .cipher-key-radio:focus {
+    box-shadow: none !important;
+}
+
+.cipher-key-m-radio-button {
+    width: 100%;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.form-group {
+    margin-top: 30px;
+}
