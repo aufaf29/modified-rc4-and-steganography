@@ -38,6 +38,6 @@ class RC4:
             t = (temp_key[i] + temp_key[j]) % 256
             u = temp_key[t]
 
-            result += chr(u ^ ord(char))
+            result += chr(u ^ ord(char) ^ j)
 
         return result
