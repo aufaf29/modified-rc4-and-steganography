@@ -55,50 +55,6 @@
 
       </div>
 
-      <div class="app-setting">
-
-        <div class="app-setting-title">
-          <h3 class="app-setting-title-text">Action</h3>
-        </div>
-        
-        <div class="app-setting-action">        
-          <div class="btn-group btn-group-toggle app-setting-action-button" data-toggle="buttons">
-            <label id="app-setting-action-button-1" class="btn btn-primary shadow-none encrypt-button active">
-              <input type="radio" name="action-options" id="encrypt" autocomplete="off" onchange="change_action(this);" checked> Encrypt
-            </label>
-            <label id="app-setting-action-button-2" class="btn btn-primary shadow-none decrypt-button">
-              <input type="radio" name="action-options" id="decrypt" autocomplete="off" onchange="change_action(this);"> Decrypt
-            </label>
-          </div>
-        </div>
-        
-        <div class="app-setting-form">
-          
-          <div class="app-setting-form-container">
-
-            <h4 class="form-config-title-main">Cipher Configuration</h2>
-            
-            <select id="select-cipher" class="custom-select">
-              <option value="1" selected>Modified RC4 Cipher</option>
-            </select>
-
-            <div id="app-setting-form-dynamic">
-                <div class="form-group">
-                  <label for="cipher-key" class="input-form-config-label">Key :</label>
-                  <input type="text" class="input-form-config form-control" id="cipher-key" placeholder="Enter cipher key!">
-                </div>
-            </div>
-            
-          </div>
-
-        </div>
-        
-        <div class="app-setting-execute">
-          <button id="execute-button" class="btn btn-primary shadow-none btn-block execute-button" type="button" id="btn-post" onclick="execute();">Execute!</button>
-        </div>
-      
-      </div>
-
       <div class="app-output">
 
         <div class="app-container-title">
