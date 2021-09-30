@@ -1,3 +1,5 @@
+import copy
+
 class RC4:
     def __init__(self, key_input="test") -> None:
         self._key = []
@@ -23,15 +25,18 @@ class RC4:
         j = 0
         result = ""
 
+        # to make sure the key doesn't change
+        temp_key = copy.copy(self._key)
+
         for char in text:
             i = (i + 1) % 256
-            j = (j + self._key[i]) % 256
+            j = (j + temp_key[i]) % 256
 
             # swap
-            self._key[i], self._key[j] = self._key[j], self._key[i]
+            temp_key[i], temp_key[j] = temp_key[j], temp_key[i]
 
-            t = (self._key[i] + self._key[j]) % 256
-            u = self._key[t]
+            t = (temp_key[i] + temp_key[j]) % 256
+            u = temp_key[t]
 
             result += chr(u ^ ord(char))
 
