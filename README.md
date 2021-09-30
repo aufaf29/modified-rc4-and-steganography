@@ -3,3 +3,7 @@ Team :
 13518009 - Aufa Fadhlurohman
 13518069 - Dimas Wahyu Langkawi
 
+# How To Run
+```
+python app.py
+```
