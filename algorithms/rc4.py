@@ -16,3 +16,23 @@ class RC4:
 
             # swap
             self._key[i], self._key[j] = self._key[j], self._key[i]
+
+    def compute(self, text):
+        # PRGA (Pseudo-random generation algorithm)
+        i = 0
+        j = 0
+        result = ""
+
+        for char in text:
+            i = (i + 1) % 256
+            j = (j + self._key[i]) % 256
+
+            # swap
+            self._key[i], self._key[j] = self._key[j], self._key[i]
+
+            t = (self._key[i] + self._key[j]) % 256
+            u = self._key[t]
+
+            result += chr(u ^ ord(char))
+
+        return result
