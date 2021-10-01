@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin
 import os
 import cv2
 import algorithms
+import numpy as np
 
 STATIC_DIR = os.path.abspath("static")
 
@@ -63,12 +64,16 @@ def action():
         return "State : " + state
 
 @app.route("/encode-image", methods=["POST"])
-@cross_origin()
 def encode_image():
     if request.method == "POST":
-        file = request.form["text"]
-        key = request.form["key"]
-        return algorithms.ModifiedRC4Cipher(key_input=key).compute(text)
+        file = request.files['stegofile']
+        file2 = request.files['messagefile']
+        
+        npimg = np.fromfile(file, np.uint8)
+        file = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+        print(file)
+        capacity = steganomachine.calculate_capacity(file)
+        return "TRUE"
 
 
 if __name__ == "__main__":
