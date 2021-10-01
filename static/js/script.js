@@ -68,11 +68,13 @@ encrypt = null
 sequence = null
 
 
+
 document.getElementById("input-file1").addEventListener('change', event => {
     let files = event.target.files
     stegofile = files[0]
     document.getElementById('file-label1').innerHTML = "Image"
     console.log(stegofile)
+    
 })
 
 document.getElementById("input-file2").addEventListener('change', event => {
@@ -80,6 +82,7 @@ document.getElementById("input-file2").addEventListener('change', event => {
     stegomessage = files[0]
     document.getElementById('file-label2').innerHTML = "Message"
     console.log(stegomessage)
+    
 })
 
 document.getElementById("message-key-encode").addEventListener('change', () => {
@@ -113,31 +116,39 @@ document.getElementById("random").addEventListener('change', () => {
     console.log(sequence)
 })
 
-function encodeimage() {
-    var request = new XMLHttpRequest();
-    
-    request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var downloadname = new Date().toJSON().slice(0, 19).replaceAll("-", "").replaceAll(":", "").replaceAll("T", "_") + "_" + "encoded";
-            download(downloadname, text);
-        }
-    }
-    var encode_data = new FormData()
+async function encodeimage() {
+    let encode_data = new FormData()
+    encode_data.append('test', "TESTTTT")
     encode_data.append('stegofile', stegofile)
-    encode_data.append('messagekey', messagekey)
     encode_data.append('stegomessage', stegomessage)
+    encode_data.append('messagekey', messagekey)
     encode_data.append('seedkey', seedkey)
     encode_data.append('encrypt', encrypt)
     encode_data.append('sequence', sequence)
+    console.log(stegofile)
+    console.log(encrypt)
+    console.log(encode_data)
+    console.log(Array.from(encode_data))
     
-    request.open('POST', '/encode-image', true);
-    request.setRequestHeader('content-type', 'multipart/form-data');
-    request.send(encode_data);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/encode-image', true);
+    xhr.onload = function () {
+        console.log(this.responseText);
+    };
+    xhr.send(encode_data);
+
+    // var request = new XMLHttpRequest();
+    
+    // request.onreadystatechange = function () {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         console.log(this.responseText)
+    //         file = "lsds"
+    //         var downloadname = new Date().toJSON().slice(0, 19).replaceAll("-", "").replaceAll(":", "").replaceAll("T", "_") + "_" + "encoded";
+    //         download(downloadname, file);
+    //     }
+    // }
+
+    
+    // request.open('POST', '/encode-image', true);
+    // request.send(encode_data);
 }
-
-
-
-document.getElementById("download-button-encode").addEventListener("click", (e) => {
-    
-    
-}, false);

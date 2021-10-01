@@ -1,7 +1,7 @@
 import copy
 import random
 
-from .rc4 import ModifiedRC4Cipher
+from rc4 import ModifiedRC4Cipher
 
 class SteganoImage:
     def __init__(self):
