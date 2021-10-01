@@ -43,7 +43,7 @@ function change_action(src) {
     request.send("state=" + src.id);
 }
 
-var upload = document.getElementById('input-file');
+var upload = document.getElementById('input-file1');
 
 upload.addEventListener('change', () => {
     var filename = upload.value.replaceAll("\\", " ").split(" ");
@@ -58,11 +58,6 @@ upload.addEventListener('change', () => {
     reader.readAsText(file);
 });
 
-var input = document.getElementById('input-text-box');
-
-input.addEventListener('input', () => {
-    document.getElementById('file-label').innerHTML = "Choose Input File!";
-})
 
 function download(filename, textInput) {
     var element = document.createElement('a');
@@ -72,7 +67,7 @@ function download(filename, textInput) {
     element.click();
 }
 
-document.getElementById("download-button").addEventListener("click", () => {
+document.getElementById("download-button-decode").addEventListener("click", () => {
     var text = document.getElementById("output-text-box").value;
     var filename = document.getElementById('file-label').innerHTML != "Choose Input File!" ? document.getElementById('file-label').innerHTML.split(".")[0] : "text";
     var fileextension = document.getElementById('file-label').innerHTML.split(".")[1] != undefined ? document.getElementById('file-label').innerHTML.split(".")[1] : "txt";

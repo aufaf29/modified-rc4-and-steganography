@@ -30,45 +30,93 @@
       </div>
     </nav>
     
-    <div class="app-container">
+    <div class="app-stego-container">
 
-      <div class="app-input">
+      <div class="app-stego-input">
         
-        <div class="app-container-title">
-          <h5 id="left-tab">Plaintext</h5>
+        <div class="app-stego-container-title">
+          <h5 id="left-tab">Encode</h5>
         </div>
 
-        <div class="app-container-area">
+        <div class="app-stego-container-area">
 
           <form>
-            <div class="form-group">
-              <label class="form-label float-left" for="input-text-box">Input Text :</label>
-              <textarea class="form-control" id="input-text-box" rows="17" spellcheck="false"></textarea>
-            </div>
+            <h6>Input Image File</h6>
             <div id="input-file-area" class="input-file custom-file">
-              <input type="file" class="custom-file-input" id="input-file">
-              <label id="file-label" class="custom-file-label" for="input-file">Choose Input File!</label>
+              <input type="file" class="custom-file-input" id="input-file1">
+              <label id="file-label1" class="custom-file-label" for="input-file1">Choose Input File!</label>
             </div>
+
+
+            <h6>Input Message File</h6>
+            <div id="input-file-area" class="input-file custom-file">
+              <input type="file" class="custom-file-input" id="input-file2">
+              <label id="file-label2" class="custom-file-label" for="input-file2">Choose Input File!</label>
+            </div>
+
+            <div class="form-group">
+                <label class="key-label" for="message-key-encode">Message Key</label>
+                <input class="form-control" id="message-key-encode" placeholder="test">
+            </div>
+
+            <div class="form-group">
+                <label class="key-label" for="seed-key-encode">Seed Key / Stegokey</label>
+                <input class="form-control" id="seed-key-encode" placeholder="11">
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="encrypt" id="withEncryption" value="withEncryption">
+              <label class="form-check-label" for="withEncryption">With Encryption</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="encrypt" id="withoutEncyption" value="withoutEncyption">
+              <label class="form-check-label" for="withoutEncyption">Without Encryption</label>
+            </div>
+
+            <div></div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="randomize" id="sequential" value="sequential">
+              <label class="form-check-label" for="sequential">Sequential</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="randomize" id="random" value="random">
+              <label class="form-check-label" for="random">Random</label>
+            </div>
+
+            <button type="button" id="download-button-encode" class="download-button btn btn-primary btn-lg btn-block">Download Result</button>
           </form>
 
         </div>
 
       </div>
 
-      <div class="app-output">
+      <div class="app-stego-output">
 
-        <div class="app-container-title">
-          <h5 id="right-tab">Ciphertext</h5>
+        <div class="app-stego-container-title">
+          <h5 id="right-tab">Decode</h5>
         </div>
       
-        <div class="app-container-area">
+        <div class="app-stego-container-area">
 
           <form>
-            <div class="form-group">
-              <label class="form-label float-left" for="output-text-box">Output Text :</label>
-              <textarea class="form-control" id="output-text-box" rows="17" spellcheck="false" readonly="true"></textarea>
+            <h6>Input Image File</h6>
+            <div id="input-file-area" class="input-file custom-file">
+              <input type="file" class="custom-file-input" id="input-file-decode">
+              <label id="file-label1" class="custom-file-label" for="input-file-decode">Choose Input File!</label>
             </div>
-            <button type="button" id="download-button" class="download-button btn btn-primary btn-lg btn-block">Download Result</button>
+
+            <div class="form-group">
+                <label class="key-label" for="message-key">Message Key</label>
+                <input class="form-control" id="message-key" placeholder="test">
+            </div>
+
+            <div class="form-group">
+                <label class="key-label" for="seed-key">Seed Key / Stegokey</label>
+                <input class="form-control" id="seed-key" placeholder="11">
+            </div>
+
+            <button type="button" id="download-button-decode" class="download-button btn btn-primary btn-lg btn-block">Process and Download</button>
           </form>
 
         </div>
