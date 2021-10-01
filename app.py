@@ -7,11 +7,13 @@ STATIC_DIR = os.path.abspath("static")
 
 app = Flask(__name__, static_folder=STATIC_DIR)
 
+
 @app.route("/favicon.ico")
 def favicon():
     return send_from_directory(os.path.join(app.root_path, "static"),
                                "img/favicon.ico",
                                mimetype="image/vnd.microsoft.icon")
+
 
 @app.route("/")
 def index():
@@ -25,7 +27,14 @@ def cryptography():
 
 @app.route("/steganography")
 def steganography():
-    return render_template("steganography-page.html", title='Steganography with LSB')
+    return render_template("steganography-page.html",
+                           title='Steganography with LSB')
+
+
+@app.route("/audio-steganography")
+def audio_steganography():
+    return render_template("audio-steganography-page.html",
+                           title='Audio steganography with LSB')
 
 
 @app.route("/execute", methods=["POST"])
@@ -34,7 +43,6 @@ def execute():
         text = request.form["text"]
         key = request.form["key"]
         return algorithms.ModifiedRC4Cipher(key_input=key).compute(text)
-        
 
 
 @app.route("/action", methods=["POST"])
