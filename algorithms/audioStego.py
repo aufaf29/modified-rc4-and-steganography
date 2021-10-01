@@ -1,18 +1,20 @@
 import wave
+import random
 
 
 class AudioStego:
     def __init__(self, file_name) -> None:
         self._input_file_name = file_name
 
-    def encode(self, text, output_file_name):
+    def encode(self, text, key, output_file_name):
+        random.seed(key)
         audio = wave.open(self._input_file_name, "rb")
 
         # get every byte
         frame_bytes = bytearray(list(audio.readframes(audio.getnframes())))
 
-        # pad the text with % as marker
-        text += int((len(frame_bytes) - (len(text) * 8 * 8)) / 8) * '%'
+        # mark the end of text with %
+        text += "%"
 
         # turn text to list of bits
         bits = list(
@@ -21,30 +23,43 @@ class AudioStego:
                 ''.join(bin(ord(i)).lstrip('0b').rjust(8, '0') for i in text),
             ))
 
-        # changing the last bit
-        for i, bit in enumerate(bits):
+        # changing the LSB
+        length = len(frame_bytes)
+        for bit in bits:
+            i = int(random.random() * length)
             frame_bytes[i] = (frame_bytes[i] & 254) | bit
-        self._frame_modified = bytes(frame_bytes)
+        frame_modified = bytes(frame_bytes)
 
         # save the output
         output_audio = wave.open(output_file_name, 'wb')
         output_audio.setparams(audio.getparams())
-        output_audio.writeframes(self._frame_modified)
+        output_audio.writeframes(frame_modified)
 
         audio.close()
         output_audio.close()
 
-    def decode(self):
+    def decode(self, key):
+        random.seed(key)
         audio = wave.open(self._input_file_name, "rb")
         frame_bytes = bytearray(list(audio.readframes(audio.getnframes())))
 
         # get the bit message
-        bits = [frame_bytes[i] & 1 for i in range(len(frame_bytes))]
+        decoded = ""
+        res = ""
+        bits = []
+        length = len(frame_bytes)
+        while (res != "%"):
+            i = int(random.random() * length)
+            bits.append(frame_bytes[i] & 1)     # get LSB
 
-        string = "".join(
-            chr(int("".join(map(str, bits[i:i + 8])), 2))
-            for i in range(0, len(bits), 8))
-        decoded = string.split("###")[0]
+            # get char from bits
+            if len(bits) == 8:
+                res = chr(int("".join(map(str, bits[:8])), 2))
+
+                decoded += res
+                bits = []
+
+        decoded = decoded[:-1]
 
         audio.close()
 
