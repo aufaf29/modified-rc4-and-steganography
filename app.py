@@ -13,11 +13,13 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+
 @app.route("/favicon.ico")
 def favicon():
     return send_from_directory(os.path.join(app.root_path, "static"),
                                "img/favicon.ico",
                                mimetype="image/vnd.microsoft.icon")
+
 
 @app.route("/")
 def index():
@@ -30,6 +32,7 @@ def cryptography():
 
 
 @app.route("/steganography-image")
+@cross_origin()
 def steganography_image():
     return render_template("steganography-image-page.html", title='Steganography with LSB')
 
@@ -37,6 +40,11 @@ def steganography_image():
 @cross_origin()
 def steganography_audio():
     return render_template("steganography-audio-page.html", title='Steganography with LSB')
+
+@app.route("/audio-steganography")
+def audio_steganography():
+    return render_template("audio-steganography-page.html",
+                           title='Audio steganography with LSB')
 
 
 @app.route("/execute", methods=["POST"])
