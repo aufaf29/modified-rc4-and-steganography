@@ -2,19 +2,18 @@ import copy
 import os
 import cv2
 import random
-import numpy as np
 
-from rc4 import RC4
+from rc4 import ModifiedRC4Cipher
 
 class SteganoImage:
     def __init__(self):
         pass
 
-    def insert_file_to_image_LSB(self, file, image, encrypt=False, randomize=False, stegokey=None):
+    def insert_file_to_image_LSB(self, file, image, encrypt=False, randomize=False, stegokey=None, seed=None):
         file = file.read()
 
         if(encrypt):
-            cipher = RC4(stegokey) if stegokey is not None else RC4
+            cipher = ModifiedRC4Cipher(stegokey) if stegokey is not None else ModifiedRC4Cipher()
             file = cipher.compute_bytes(file)
             
         (_, width, depth) = image.shape
@@ -25,13 +24,23 @@ class SteganoImage:
 
         if(randomize):
             stegoimage = copy.copy(image)
-            binary = encrypt_bin + randomize_bin + binary_length + self.get_binary_repr(file)
-            generator = self.create_sequential_index(stegokey, len(binary))
-            for itr in generator:
+
+            binary = encrypt_bin + randomize_bin + binary_length
+            for itr in range(len(binary)):
                 i = itr // (width * depth)
                 j = (itr % (width * depth)) // depth
                 k = (itr % depth)
                 stegoimage[i][j][k] = self.change_LSB(image[i][j][k], binary[itr])
+
+            binary = self.get_binary_repr(file)
+            generator = self.create_sequential_index(seed, 48, len(binary))
+            count = 0
+            for itr in generator:
+                i = itr // (width * depth)
+                j = (itr % (width * depth)) // depth
+                k = (itr % depth)
+                stegoimage[i][j][k] = self.change_LSB(image[i][j][k], binary[count])
+                count += 1
         else:
             stegoimage = copy.copy(image)
             binary = encrypt_bin + randomize_bin + binary_length + self.get_binary_repr(file)
@@ -43,7 +52,7 @@ class SteganoImage:
         
         return file, stegoimage
     
-    def get_binary_from_image(self, image, stegokey=None):
+    def get_binary_from_image(self, image, stegokey=None, seed=None):
         (height, width, depth) = image.shape
 
         LSBs = ""
@@ -57,12 +66,29 @@ class SteganoImage:
         randomize = int(LSBs[8:16], 2)
         binary_length = int(LSBs[16:48], 2)
         binary = b''
-        for i in range(48, binary_length + 48, 8):
-            binary += self.binary_to_bytes(LSBs[i:i+8])
+
+        if(randomize == 1):
+            generator = self.create_sequential_index(seed, 48, binary_length)
+            count = 0
+            temp = ""
+            for itr in generator:
+                i = itr // (width * depth)
+                j = (itr % (width * depth)) // depth
+                k = (itr % depth)
+                count += 1
+                temp += str(self.get_LSB(image[i][j][k]))
+                if(count % 8 == 0):
+                    binary += self.binary_to_bytes(temp)
+                    count = 0
+                    temp = ""
+        else:
+            for i in range(48, binary_length + 48, 8):
+                binary += self.binary_to_bytes(LSBs[i:i+8])
         
-        if(encrypt):
-            cipher = RC4(stegokey) if stegokey is not None else RC4
+        if(encrypt == 1):
+            cipher = ModifiedRC4Cipher(stegokey) if stegokey is not None else ModifiedRC4Cipher()
             binary = cipher.compute_bytes(binary)
+        
 
         return binary
     
@@ -96,6 +122,6 @@ class SteganoImage:
         binary = "0" * ((8 * len(val)) - (len(binary))) + binary
         return binary
 
-    def create_sequential_index(self, stegokey, length):
+    def create_sequential_index(self, stegokey, minval, length):
         random.seed(stegokey)
-        return random.sample(range(length), length)
+        return random.sample(range(minval, length + minval), length)

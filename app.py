@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, send_from_directory
 import os
-import re
 
 import algorithms
 
@@ -34,10 +33,7 @@ def execute():
     if request.method == "POST":
         text = request.form["text"]
         key = request.form["key"]
-        command = request.form["command"]
-        alphabets = re.sub(r'[^a-zA-Z]', '', text).upper()
-        return command + " " + key + " " + alphabets
-        # return algorithms.ModifiedRC4Cipher().execute(command, text, key)
+        return algorithms.ModifiedRC4Cipher(key_input=key).compute(text)
         
 
 
