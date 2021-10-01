@@ -1,6 +1,4 @@
 import copy
-import os
-import cv2
 import random
 
 from .rc4 import ModifiedRC4Cipher

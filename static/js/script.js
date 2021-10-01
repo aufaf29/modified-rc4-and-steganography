@@ -43,25 +43,10 @@ function change_action(src) {
     request.send("state=" + src.id);
 }
 
-var upload = document.getElementById('input-file1');
 
-upload.addEventListener('change', () => {
-    var filename = upload.value.replaceAll("\\", " ").split(" ");
-    document.getElementById('file-label').innerHTML = filename[filename.length - 1]
-
-    var file = document.getElementById('input-file').files[0];
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        document.getElementById('input-text-box').value = e.target.result;
-    }
-    reader.readAsText(file);
-});
-
-
-function download(filename, textInput) {
+function download(filename, file) {
     var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textInput));
+    element.setAttribute('href', file);
     element.setAttribute('download', filename);
     document.body.appendChild(element);
     element.click();
@@ -73,4 +58,86 @@ document.getElementById("download-button-decode").addEventListener("click", () =
     var fileextension = document.getElementById('file-label').innerHTML.split(".")[1] != undefined ? document.getElementById('file-label').innerHTML.split(".")[1] : "txt";
     var downloadname = new Date().toJSON().slice(0, 19).replaceAll("-", "").replaceAll(":", "").replaceAll("T", "_") + "_" + filename + (document.getElementById("right-tab").innerHTML == "Ciphertext" ? "_encrypted." : "_decrypted.") + fileextension;
     download(downloadname, text);
+}, false);
+
+stegofile = null
+stegomessage = null
+messagekey = null
+seedkey = null
+encrypt = null
+sequence = null
+
+
+document.getElementById("input-file1").addEventListener('change', event => {
+    let files = event.target.files
+    stegofile = files[0]
+    document.getElementById('file-label1').innerHTML = "Image"
+    console.log(stegofile)
+})
+
+document.getElementById("input-file2").addEventListener('change', event => {
+    let files = event.target.files
+    stegomessage = files[0]
+    document.getElementById('file-label2').innerHTML = "Message"
+    console.log(stegomessage)
+})
+
+document.getElementById("message-key-encode").addEventListener('change', () => {
+    messagekey = document.getElementById("message-key-encode").value
+    console.log(messagekey)
+})
+
+document.getElementById("seed-key-encode").addEventListener('change', () => {
+    seedkey = document.getElementById("seed-key-encode").value
+    console.log(seedkey)
+})
+
+
+document.getElementById("withEncryption").addEventListener('change', () => {
+    encrypt = document.getElementById("withEncryption").value
+    console.log(encrypt)
+})
+
+document.getElementById("withoutEncryption").addEventListener('change', () => {
+    encrypt = document.getElementById("withoutEncryption").value
+    console.log(encrypt)
+})
+
+document.getElementById("sequential").addEventListener('change', () => {
+    sequence = document.getElementById("sequential").value
+    console.log(sequence)
+})
+
+document.getElementById("random").addEventListener('change', () => {
+    sequence = document.getElementById("random").value
+    console.log(sequence)
+})
+
+function encodeimage() {
+    var request = new XMLHttpRequest();
+    
+    request.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var downloadname = new Date().toJSON().slice(0, 19).replaceAll("-", "").replaceAll(":", "").replaceAll("T", "_") + "_" + "encoded";
+            download(downloadname, text);
+        }
+    }
+    var encode_data = new FormData()
+    encode_data.append('stegofile', stegofile)
+    encode_data.append('messagekey', messagekey)
+    encode_data.append('stegomessage', stegomessage)
+    encode_data.append('seedkey', seedkey)
+    encode_data.append('encrypt', encrypt)
+    encode_data.append('sequence', sequence)
+    
+    request.open('POST', '/encode-image', true);
+    request.setRequestHeader('content-type', 'multipart/form-data');
+    request.send(encode_data);
+}
+
+
+
+document.getElementById("download-button-encode").addEventListener("click", (e) => {
+    
+    
 }, false);
