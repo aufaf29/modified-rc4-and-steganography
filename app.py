@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request, send_from_directory
 from flask_cors import CORS, cross_origin
+from werkzeug.utils import secure_filename
+
 import os
 import cv2
 import algorithms
 import numpy as np
+
 
 STATIC_DIR = os.path.abspath("static")
 
@@ -74,6 +77,21 @@ def encode_image():
         print(file)
         capacity = steganomachine.calculate_capacity(file)
         return "TRUE"
+
+
+@app.route("/encode-audio", methods=["POST"])
+@cross_origin()
+def encode_audio():
+    if request.method == "POST":
+        file = request.files["stegofile"]
+        filename = secure_filename(file.filename) # save file 
+        filepath = os.path.join("./algorithms/sample", filename)
+        file.save(filepath)
+
+        audio_stego = algorithms.AudioStego(filepath)
+        # audio_stego.encode()
+        # return algorithms.ModifiedRC4Cipher(key_input=key).compute(file)
+    return "TESDASA"
 
 
 if __name__ == "__main__":
