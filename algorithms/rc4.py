@@ -1,6 +1,6 @@
 import copy
 
-class RC4:
+class ModifiedRC4Cipher:
     def __init__(self, key_input="test") -> None:
         self._key = []
 
